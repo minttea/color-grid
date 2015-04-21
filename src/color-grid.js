@@ -124,4 +124,15 @@
 
   window.onresize = resize;
 
+  /* test-code */
+  var exports = module.exports = {
+    Rgb: Rgb,
+    Rgb_toString: Rgb.toString,
+    Rgb_isEqual: Rgb.isEqual,
+    getScaledX: getScaledX,
+    getIntensityfromScaledX: getIntensityfromScaledX,
+    getRgbFromScaledX: getRgbFromScaledX
+  };
+  /* end-test-code */
+
 }());
