@@ -10,15 +10,15 @@
         g = parseInt(g, 10);
         b = parseInt(b, 10);
 
-        if ((typeof (r) !== "number" && !r) || (r > 255 || r < 0)) {
+        if (r !== r || (r > 255 || r < 0)) {
           r = 255;
         }
 
-        if ((typeof (g) !== "number" && !g) || (g > 255 || g < 0)) {
+        if (g !== g || (g > 255 || g < 0)) {
           g = 255;
         }
 
-        if ((typeof (b) !== "number" && !b) || (b > 255 || b < 0)) {
+        if (b !== b || (b > 255 || b < 0)) {
           b = 255;
         }
 
@@ -28,7 +28,7 @@
       }
 
   Rgb.prototype.toString = function () {
-    return "RGB(" + this.r + "," + this.g + "," + this.b + ")";
+    return "rgb(" + this.r + "," + this.g + "," + this.b + ")";
   };
 
   Rgb.prototype.isEqual = function (other) {
@@ -41,6 +41,16 @@
   };
 
   function getScaledX(mouseX, width) {
+    if (typeof(mouseX) !== "number" ||
+      typeof(width) !== "number" ||
+      mouseX < 0 ||
+      mouseX !== mouseX ||
+      width !== width) {
+      return 0;
+    }
+    if (mouseX > width) {
+      return 360;
+    }
     return 360 * mouseX / width;
   }
 
@@ -48,6 +58,15 @@
 
     var start,
       finalValue;
+
+    color = typeof color !== 'undefined' ? color : 'r';
+
+    if (typeof(scaledX) !== "number" ||
+      scaledX !== scaledX ||
+      scaledX < 0 ||
+      scaledX > 360) {
+        scaledX = 0;
+    }
 
     switch (color) {
     case "r":

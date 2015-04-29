@@ -71,22 +71,22 @@ describe("getScaledX", function() {
     var screen_width = 1000,
       mouse_position = -10,
       scaled_mouse_position = color_grid.getScaledX(mouse_position, screen_width);
-    expect(scaled_mouse_position).to.equal(360);
+    expect(scaled_mouse_position).to.equal(0);
   });
   it("should return 0 when non numeric values are used", function() {
-    expect(color_grid.getScaledX(null, 1000)).to.equal(360);
-    expect(color_grid.getScaledX(undefined, 1000)).to.equal(360);
-    expect(color_grid.getScaledX(NaN, 1000)).to.equal(360);
-    expect(color_grid.getScaledX(true, 1000)).to.equal(360);
-    expect(color_grid.getScaledX(false, 1000)).to.equal(360);
-    expect(color_grid.getScaledX("string", 1000)).to.equal(360);
+    expect(color_grid.getScaledX(null, 1000)).to.equal(0);
+    expect(color_grid.getScaledX(undefined, 1000)).to.equal(0);
+    expect(color_grid.getScaledX(NaN, 1000)).to.equal(0);
+    expect(color_grid.getScaledX(true, 1000)).to.equal(0);
+    expect(color_grid.getScaledX(false, 1000)).to.equal(0);
+    expect(color_grid.getScaledX("string", 1000)).to.equal(0);
 
-    expect(color_grid.getScaledX(10, null)).to.equal(360);
-    expect(color_grid.getScaledX(10, undefined)).to.equal(360);
-    expect(color_grid.getScaledX(10, NaN)).to.equal(360);
-    expect(color_grid.getScaledX(10, true)).to.equal(360);
-    expect(color_grid.getScaledX(10, false)).to.equal(360);
-    expect(color_grid.getScaledX(10, "string")).to.equal(360);
+    expect(color_grid.getScaledX(10, null)).to.equal(0);
+    expect(color_grid.getScaledX(10, undefined)).to.equal(0);
+    expect(color_grid.getScaledX(10, NaN)).to.equal(0);
+    expect(color_grid.getScaledX(10, true)).to.equal(0);
+    expect(color_grid.getScaledX(10, false)).to.equal(0);
+    expect(color_grid.getScaledX(10, "string")).to.equal(0);
   });
 });
 describe("getIntensityfromScaledX", function() {
