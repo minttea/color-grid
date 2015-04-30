@@ -11,5 +11,8 @@
     "grunt-strip-code": "^0.1.2",
     "jsdom": "^5.3.0",
     "mocha": "^2.2.4"
+  },
+  "scripts": {
+    "test": "mocha"
   }
 }
