@@ -65,13 +65,21 @@ describe("Hsl", function() {
   });
 });
 describe("getScaledX", function() {
-  it("should return the mouse position's value out of 360, given the mouse position and screen width", function() {
-    var screen_width = 1000,
-      mouse_position = 40,
-      scaled_mouse_position = color_grid.getScaledX(mouse_position, screen_width);
-    expect(scaled_mouse_position).to.equal(14.4);
+  it("should return the mouse position's value out of 360 as an whole number, given the mouse position and screen width", function() {
+    var scaled1 = color_grid.getScaledX(40,1000),
+      scaled2 = color_grid.getScaledX(11,1000);
+      scaled3 = color_grid.getScaledX(10,360);
+      scaled4 = color_grid.getScaledX(100.5,360);
+      scaled5 = color_grid.getScaledX(100.1,360);
+      scaled6 = color_grid.getScaledX(100.9,360);
+      expect(scaled1).to.equal(14);
+      expect(scaled2).to.equal(3);
+      expect(scaled3).to.equal(10);
+      expect(scaled4).to.equal(100);
+      expect(scaled5).to.equal(100);
+      expect(scaled6).to.equal(100);
   });
-  it("should return 360 when the mouse position is greather than the width of the screen", function() {
+  it("should return 360 when the mouse position is greater than the width of the screen", function() {
     var screen_width = 1000,
       mouse_position = 2000,
       scaled_mouse_position = color_grid.getScaledX(mouse_position, screen_width);
@@ -97,5 +105,70 @@ describe("getScaledX", function() {
     expect(color_grid.getScaledX(10, true)).to.equal(0);
     expect(color_grid.getScaledX(10, false)).to.equal(0);
     expect(color_grid.getScaledX(10, "string")).to.equal(0);
+  });
+});
+describe("getScaledY", function() {
+  it("should return correct scaled values between 15 and 85, inclusive", function() {
+    var scaled1 = color_grid.getScaledY(50.1, 100),
+      scaled2 = color_grid.getScaledY(50.5,100);
+      scaled3 = color_grid.getScaledY(0,70);
+      scaled4 = color_grid.getScaledY(1,70);
+      scaled5 = color_grid.getScaledY(69,70);
+      scaled6 = color_grid.getScaledY(70,70);
+      scaled7 = color_grid.getScaledY(69.9, 70);
+      scaled8 = color_grid.getScaledY(68.9, 70);
+      expect(scaled1).to.equal(50);
+      expect(scaled2).to.equal(50);
+      expect(scaled3).to.equal(15);
+      expect(scaled4).to.equal(16);
+      expect(scaled5).to.equal(84);
+      expect(scaled6).to.equal(85);
+      expect(scaled7).to.equal(84);
+      expect(scaled8).to.equal(83);
+  });
+  describe("for non numeric values", function() {
+    it("should return 15", function() {
+      var scaled1 = color_grid.getScaledY(true, 100),
+        scaled2 = color_grid.getScaledY(false, 100),
+        scaled3 = color_grid.getScaledY("string", 100),
+        scaled4 = color_grid.getScaledY(null, 100),
+        scaled5 = color_grid.getScaledY(),
+        scaled6 = color_grid.getScaledY(undefined, 100),
+        scaled7 = color_grid.getScaledY(NaN, 100),
+        scaled8 = color_grid.getScaledY(100, true),
+        scaled9 = color_grid.getScaledY(100, false),
+        scaled10 = color_grid.getScaledY(100, "string"),
+        scaled11 = color_grid.getScaledY(100, null),
+        scaled12 = color_grid.getScaledY(100),
+        scaled13 = color_grid.getScaledY(100, undefined),
+        scaled14 = color_grid.getScaledY(100, NaN);
+
+      expect(scaled1).to.equal(15);
+      expect(scaled2).to.equal(15);
+      expect(scaled3).to.equal(15);
+      expect(scaled4).to.equal(15);
+      expect(scaled5).to.equal(15);
+      expect(scaled6).to.equal(15);
+      expect(scaled7).to.equal(15);
+      expect(scaled8).to.equal(15);
+      expect(scaled9).to.equal(15);
+      expect(scaled10).to.equal(15);
+      expect(scaled11).to.equal(15);
+      expect(scaled12).to.equal(15);
+      expect(scaled13).to.equal(15);
+      expect(scaled14).to.equal(15);
+    });
+  });
+  describe("for mouse position less than 0", function() {
+    it("should return 15", function() {
+      var scaled = color_grid.getScaledY(-10, 100);
+      expect(scaled).to.equal(15);
+    });
+  });
+  describe("when the mouse position is greater than the height of the screen", function() {
+    it("should return 85", function() {
+      var scaled = color_grid.getScaledY(1000, 100);
+      expect(scaled).to.equal(85);
+    });
   });
 });

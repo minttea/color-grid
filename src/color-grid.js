@@ -3,7 +3,8 @@
 
   var currentBodyColor,
     body,
-    bodyX;
+    bodyX,
+    bodyY;
 
   function Hsl(h, s, l) {
     h = parseInt(h, 10);
@@ -51,45 +52,57 @@
     if (mouseX > width) {
       return 360;
     }
-    return 360 * mouseX / width;
+    return parseInt(360 * mouseX / width, 10);
   }
 
-  function getBodyWidth() {
-    return window.innerWidth;
+  // return a scaled y value on a scale from 15 to 85, inclusive
+  function getScaledY(mouseX, width) {
+    if (typeof(mouseX) !== "number" ||
+      typeof(width) !== "number" ||
+      mouseX < 0 ||
+      mouseX !== mouseX ||
+      width !== width) {
+      return 15;
+    }
+    if (mouseX > width) {
+      return 85;
+    }
+    // the total range is 70: 85 - 15
+    return parseInt(70 * mouseX / width + 15, 10);
   }
 
-  function resize() {
-    bodyX = getBodyWidth();
-  }
-
-  function addMouseOverFunc() {
-    document.addEventListener("mousemove", function (e) {
-
-      var mouseX = e.screenX,
-        scaledX = getScaledX(mouseX, bodyX),
-        color = new Hsl(scaledX, 100, 50);
-
-      if (!color.isEqual(currentBodyColor)) {
-        body.style.background = color.toString();
-        currentBodyColor = color;
-      }
-    });
+  function setWidthAndHeight() {
+    bodyX = window.innerWidth;
+    bodyY = window.innerHeight;
   }
 
   currentBodyColor = new Hsl();
 
   document.addEventListener('DOMContentLoaded', function () {
     body = document.getElementsByTagName('body')[0];
-    bodyX = getBodyWidth();
-    addMouseOverFunc();
+    setWidthAndHeight();
+
+    document.addEventListener("mousemove", function (e) {
+      var mouseX = e.clientX,
+        mouseY = e.clientY,
+        scaledX = getScaledX(mouseX, bodyX),
+        scaledY = getScaledY(mouseY, bodyY),
+        color = new Hsl(scaledX, 100, scaledY);
+
+      if (!color.isEqual(currentBodyColor)) {
+        body.style.background = color.toString();
+        currentBodyColor = color;
+      }
+    });
   });
 
-  window.onresize = resize;
+  window.onresize = setWidthAndHeight;
 
   /* test-code */
   var exports = module.exports = {
     Hsl: Hsl,
-    getScaledX: getScaledX
+    getScaledX: getScaledX,
+    getScaledY: getScaledY
   };
   /* end-test-code */
 
